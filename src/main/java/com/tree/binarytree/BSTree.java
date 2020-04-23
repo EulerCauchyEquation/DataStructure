@@ -91,25 +91,25 @@ public class BSTree<E> {
     }
 
     public void remove(E data) {
-        TreeNode<E> current = root;
-        TreeNode<E> parent = current;
+        TreeNode<E> deleteNode = root;
+        TreeNode<E> parent = null;
         boolean isLeftChild = false;
 
         while (true) {
-            if (current == null) {
+            if (deleteNode == null) {
                 throw new IllegalArgumentException();
             }
-            int comp = compare(data, current.data);
+            int comp = compare(data, deleteNode.data);
 
             if (comp < 0) {
                 // to left child
-                parent = current;
-                current = current.left;
+                parent = deleteNode;
+                deleteNode = deleteNode.left;
                 isLeftChild = true;
             } else if (comp > 0) {
                 // to right child
-                parent = current;
-                current = current.right;
+                parent = deleteNode;
+                deleteNode = deleteNode.right;
                 isLeftChild = false;
             } else {
                 // get target
@@ -117,45 +117,28 @@ public class BSTree<E> {
             }
         }
 
-        if ((current.left == null) && (current.right == null)) {
-            // if deleted Node is leaf node..
-            if (current == root) {
-                root = null;
-            } else if (isLeftChild) {
-                parent.left = null;
-            } else {
-                parent.right = null;
-            }
+        /* Transplant(Tree, deleteNode) */
+        TreeNode<E> successor;
+        if (deleteNode.left == null) {
+            // case 1. 자식 노드 1개 이하 (null)
+            successor = deleteNode.right;
+        } else if (deleteNode.right == null) {
+            successor = deleteNode.left;
         } else {
-            // if one child node
-            if (current.left == null) {
-                if (current == root) {
-                    root = current.right;
-                } else if (isLeftChild) {
-                    parent.left = current.right;
-                } else {
-                    parent.right = current.right;
-                }
-            } else if (current.right == null) {
-                if (current == root) {
-                    root = current.left;
-                } else if (isLeftChild) {
-                    parent.left = current.left;
-                } else {
-                    parent.right = current.left;
-                }
-            } else {
-                // if two child node.
-                TreeNode<E> successor = getSuccessor(current);
+            // case 2. 자식 노드 2개
+            successor = getSuccessor(deleteNode);
+        }
 
-                if (current == root) {
-                    root = successor;
-                } else if (isLeftChild) {
-                    parent.left = successor;
-                } else {
-                    parent.right = successor;
-                }
-            }
+        /* 부모 노드 연결하는 logic */
+        if (parent == null) {
+            // case 1. 삭제 노드가 root 노드일 때
+            root = successor;
+        } else if (isLeftChild) {
+            // case 2. 삭제 노드가 부모의 왼쪽 자식 노드일 때
+            parent.left = successor;
+        } else {
+            // case 3. 삭제 노드가 부모의 오른쪽 자식 노드일 때
+            parent.right = successor;
         }
         treeSize--;
     }

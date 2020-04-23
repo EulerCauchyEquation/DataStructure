@@ -86,6 +86,12 @@ public class BSTreeTest {
 
         Assert.assertThat(tree.toArray(), is(new Object[]{}));
         Assert.assertThat(tree.size(), is(0));
+
+        tree.insert(7);
+        tree.insert(10);
+
+        Assert.assertThat(tree.toArray(), is(new Object[]{7, 10}));
+        Assert.assertThat(tree.size(), is(2));
     }
 
     @Test(expected = IllegalArgumentException.class)
