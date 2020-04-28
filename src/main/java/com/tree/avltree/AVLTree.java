@@ -12,8 +12,8 @@ import java.util.List;
  * @since 20.04.27
  */
 public class AVLTree<E> {
-    private final Comparator<? super E> comparator;
     private TreeNode<E> root;
+    private final Comparator<? super E> comparator;
     private int size;
 
     public AVLTree() {
@@ -45,7 +45,7 @@ public class AVLTree<E> {
         boolean result = explicitInsert(data);
 
         if (result) {
-            reBalance(root);
+            root = reBalance(root);
         }
     }
 
@@ -95,7 +95,6 @@ public class AVLTree<E> {
             return node;
         }
         node = rotate(node);
-
         return node;
     }
 
@@ -106,27 +105,22 @@ public class AVLTree<E> {
             // 양수면 일단 Right Rotate or LR Rotate
             int left_balance_factor = node.left.balance;
 
-            if (left_balance_factor < 0) {
-                return rotateLR(node);
-            } else {
-                return rotateR(node);
+            if (left_balance_factor <= 0) {
+                node.left = rotateL(node.left);
             }
+            return rotateR(node);
         } else {
             int right_balance_factor = node.right.balance;
 
-            if (right_balance_factor > 0) {
-                return rotateRL(node);
-            } else {
-                return rotateL(node);
+            if (right_balance_factor >= 0) {
+                node.right = rotateR(node.right);
             }
+            return rotateL(node);
         }
     }
 
     private TreeNode<E> rotateL(TreeNode<E> parent) {
         TreeNode<E> child = parent.right;
-        if (parent == root) {
-            root = child;
-        }
 
         parent.right = child.left;
         child.left = parent;
@@ -141,9 +135,6 @@ public class AVLTree<E> {
 
     private TreeNode<E> rotateR(TreeNode<E> parent) {
         TreeNode<E> child = parent.left;
-        if (parent == root) {
-            root = child;
-        }
 
         parent.left = child.right;
         child.right = parent;
@@ -154,16 +145,6 @@ public class AVLTree<E> {
         child.updateBalance();
 
         return child;
-    }
-
-    private TreeNode<E> rotateRL(TreeNode<E> parent) {
-        parent.right = rotateR(parent.right);
-        return rotateL(parent);
-    }
-
-    private TreeNode<E> rotateLR(TreeNode<E> parent) {
-        parent.left = rotateL(parent.left);
-        return rotateR(parent);
     }
 
     @SuppressWarnings("unchecked")
@@ -179,7 +160,7 @@ public class AVLTree<E> {
         }
 
         explicitRemove(data);
-        reBalance(root);
+        root = reBalance(root);
     }
 
     private void explicitRemove(E data) {

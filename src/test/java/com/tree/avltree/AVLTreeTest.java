@@ -76,5 +76,12 @@ public class AVLTreeTest {
         Assert.assertThat(tree.toArrayPreOrder(), is(new Object[]{7, 3, 2, 5, 9, 8}));
         Assert.assertThat(tree.toArrayPostOrder(), is(new Object[]{2, 5, 3, 8, 9, 7}));
         Assert.assertThat(tree.size(), is(6));
+
+        tree.remove(7);
+        tree.remove(8);
+        Assert.assertThat(tree.toArrayInOrder(), is(new Object[]{2, 3, 5, 9}));
+        Assert.assertThat(tree.toArrayPreOrder(), is(new Object[]{5, 3, 2, 9}));
+        Assert.assertThat(tree.toArrayPostOrder(), is(new Object[]{2, 3, 9, 5}));
+        Assert.assertThat(tree.size(), is(4));
     }
 }
