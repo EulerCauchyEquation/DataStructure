@@ -2,7 +2,7 @@
 
 * Language : Java
 * IDE : IntelliJ IDEA
-* 날짜 : 20.04.20
+* 날짜 : 20.04.28
 
 # Description
 
@@ -26,7 +26,7 @@ AVL Tree는 Balance Factor(BF)가 concept이라 하였다.  이때, BF가 2이�
 
 <img src="/doc/tree/avltree/avl_tree.png">
 
-####Single Rotate
+#### Single Rotate
 
 <img src="/doc/tree/avltree/singl_rotate.gif">
 
@@ -39,7 +39,7 @@ BF가 1보다 큰 노드를 기준으로 Rotate를 실행한다. 그러면 BF가
 
 <img src="/doc/tree/avltree/left_rotate.png">
 
-####Double Rotate
+#### Double Rotate
 
 double rotate는 마찬가지로, single rotate상황에서
 
@@ -50,7 +50,7 @@ double rotate는 마찬가지로, single rotate상황에서
 
 
 
-###Red - Black Tree와 AVL tree 비교
+### Red - Black Tree와 AVL tree 비교
 
 AVL은 balance가 타이트하게 잡기 때문에 삽입/삭제가 RBTree보다 느리다. <br> 
 대신 타이트한 만큼 search는 RBTree보다 빠른 편이다.  그래서 사용하는 빠른 조회를 요구하는 트리에 사용된다. ( ex. database )
