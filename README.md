@@ -15,3 +15,7 @@
 
 * [Stack](./src/main/java/com/linear/mStack)
 * [Queue](./src/main/java/com/linear/mQueue)
+
+## Hash
+
+* [Chain Hash](./src/main/java/com/hash)
