@@ -8,7 +8,7 @@
 
 queue는 stack과 반대로, FIFO(First-In First-Out)방식이다.  데이터를 꺼내는 쪽을 front, 입력하는 쪽을 rear이라 한다.
 
-<img src="/doc/linear/stack/queue.png">
+<img src="/doc/linear/queue/queue.png">
 
 Queue 는 3가지 구현 방식이 있다.
 ```
@@ -24,7 +24,7 @@ Queue 는 3가지 구현 방식이 있다.
 배열 방식은 push시 rear이 증가하고 데이터를 채우고 <br>
 pop시 front가 증가하면서 front자리에 데이터가 비워진다.
 
-<img src="/doc/linear/stack/moveQueue.png">
+<img src="/doc/linear/queue/moveQueue.png">
  
 문제는 stack over flow의 위험이 있는 것이 단점이다.  해서, 데이터를 꺼낼때마다 한칸씩 앞으로 모두 이동하는 방안이 있기는 하지만, 이동 시간이 든다.
 
@@ -36,7 +36,7 @@ pop시 front가 증가하면서 front자리에 데이터가 비워진다.
 
 이동 큐의 문제점을 고안한 방식이 원형 큐이다.
 
-<img src="/doc/linear/stack/circularQueue.png">
+<img src="/doc/linear/queue/circularQueue.png">
 
 하지만, 원형 큐 또한 stack overflow 의 위험이 있다.
 
