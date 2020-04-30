@@ -14,10 +14,19 @@ import static org.hamcrest.CoreMatchers.is;
 public class SortTest {
 
     @Test
-    public void testNaturalOrder() {
+    public void testBubbleSort() {
         int[] intArray = {26, 5, 37, 1, 61, 11, 59, 15, 48, 19};
 
         SortManager.bubbleSort(intArray);
+
+        Assert.assertThat(intArray, is(new int[]{1, 5, 11, 15, 19, 26, 37, 48, 59, 61}));
+    }
+
+    @Test
+    public void testSelectionSort() {
+        int[] intArray = {26, 5, 37, 1, 61, 11, 59, 15, 48, 19};
+
+        SortManager.selectionSort(intArray);
 
         Assert.assertThat(intArray, is(new int[]{1, 5, 11, 15, 19, 26, 37, 48, 59, 61}));
     }
