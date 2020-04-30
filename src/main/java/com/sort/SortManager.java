@@ -46,6 +46,36 @@ public class SortManager {
         }
     }
 
+    public static void quickSort(int[] array) {
+        quickSortUtil(0, array.length - 1, array);
+    }
+
+    private static void quickSortUtil(int start, int end, int[] array) {
+        if (end - start < 1) {
+            return;
+        }
+
+        int part = partition(start, end, array);
+        quickSortUtil(start, part - 1, array);
+        quickSortUtil(part, end, array);
+    }
+
+    private static int partition(int start, int end, int[] array) {
+        int pivot = start;
+
+        while (start <= end) {
+            while (array[start] < array[pivot]) start++;
+            while (array[end] > array[pivot]) end--;
+            if (start <= end) {
+                swap(start, end, array);
+                start++;
+                end--;
+            }
+        }
+
+        return start;
+    }
+
     private static void swap(int a, int b, int[] array) {
         int temp = array[a];
         array[a] = array[b];
