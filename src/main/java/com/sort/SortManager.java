@@ -46,6 +46,11 @@ public class SortManager {
         }
     }
 
+    /**
+     * quick sort : O(n log n)
+     *
+     * @param array array
+     */
     public static void quickSort(int[] array) {
         quickSortUtil(0, array.length - 1, array);
     }
@@ -73,12 +78,29 @@ public class SortManager {
             }
         }
 
-        return start;
+        return end;
     }
 
     private static void swap(int a, int b, int[] array) {
         int temp = array[a];
         array[a] = array[b];
         array[b] = temp;
+    }
+
+    /**
+     * insertion sort : O(N^2)
+     *
+     * @param array array
+     */
+    public static void insertionSort(int[] array) {
+        for (int i = 1; i < array.length; i++) {
+            int key = array[i];
+
+            int j;
+            for (j = i - 1; (j >= 0) && (key < array[j]); j--) {
+                array[j + 1] = array[j];
+            }
+            array[j + 1] = key;
+        }
     }
 }
