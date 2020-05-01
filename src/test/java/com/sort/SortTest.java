@@ -48,4 +48,13 @@ public class SortTest {
 
         Assert.assertThat(intArray, is(new int[]{1, 5, 11, 15, 19, 26, 37, 48, 59, 61}));
     }
+
+    @Test
+    public void testMergeSort() {
+        int[] intArray = {26, 5, 37, 1, 61, 11, 59, 15, 48, 19};
+
+        SortManager.mergeSort(intArray);
+
+        Assert.assertThat(intArray, is(new int[]{1, 5, 11, 15, 19, 26, 37, 48, 59, 61}));
+    }
 }

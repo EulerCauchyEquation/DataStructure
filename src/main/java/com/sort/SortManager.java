@@ -103,4 +103,50 @@ public class SortManager {
             array[j + 1] = key;
         }
     }
+
+    /**
+     * merge sort : O(n log n)
+     *
+     * @param array array
+     */
+    public static void mergeSort(int[] array) {
+        int[] temp = new int[array.length];
+        mergeSortUtil(0, array.length - 1, temp, array);
+    }
+
+    private static void mergeSortUtil(int start, int end, int[] temp, int[] array) {
+        if (end - start > 0) {
+            // divide
+            int mid = (start + end) / 2;
+
+            // conquer
+            mergeSortUtil(start, mid, temp, array);
+            mergeSortUtil(mid + 1, end, temp, array);
+            // combine
+            merge(start, mid, end, temp, array);
+        }
+    }
+
+    private static void merge(int start, int mid, int end, int[] temp, int[] array) {
+        for (int i = start; i <= end; i++) {
+            temp[i] = array[i];
+        }
+        int part1 = start;
+        int part2 = mid + 1;
+        int index = start;
+        while (part1 <= mid && part2 <= end) {
+            if (temp[part1] < temp[part2]) {
+                array[index] = temp[part1];
+                part1++;
+            } else {
+                array[index] = temp[part2];
+                part2++;
+            }
+            index++;
+        }
+
+        for (int i = part1; i <= mid; i++) {
+            array[index++] = temp[part1];
+        }
+    }
 }
