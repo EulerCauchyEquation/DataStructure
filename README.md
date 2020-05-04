@@ -25,7 +25,13 @@
 * [Sort : internal sort](./src/main/java/com/sort)
 
 <br>
+<br>
 
 # 운영체제
 
-* [Page Replacement : LRU](./src/main/java/com/page/LRU)
+<br>
+
+## Page Replacement 
+
+* [FIFO Algorithm](./src/main/java/com/page/FIFO)
+* [LRU Algorithm](./src/main/java/com/page/LRU)
