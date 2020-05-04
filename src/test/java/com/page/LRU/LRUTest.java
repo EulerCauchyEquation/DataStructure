@@ -35,6 +35,6 @@ public class LRUTest {
 
         cache.execute(pages);
 
-        Assert.assertThat(cache.getPageDefault(), is(8));
+        Assert.assertThat(cache.getPageDefault(), is(10));
     }
 }
