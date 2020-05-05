@@ -33,7 +33,8 @@
 
 ## Scheduling
 
-* [FCFS Scheduling](./src/main/java/com/scheduling/FCFS)
+* [non-preepmtive : FCFS Scheduling](./src/main/java/com/scheduling/FCFS)
+* [non-preepmtive : SJF Scheduling](./src/main/java/com/scheduling/SJF)
 
 <br>
 
