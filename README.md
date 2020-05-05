@@ -31,6 +31,13 @@
 
 <br>
 
+## Scheduling
+
+* [non-preepmtive : FCFS Scheduling](./src/main/java/com/scheduling/FCFS)
+* [non-preepmtive : SJF Scheduling](./src/main/java/com/scheduling/SJF)
+
+<br>
+
 ## Page Replacement 
 
 * [FIFO Algorithm](./src/main/java/com/page/FIFO)
