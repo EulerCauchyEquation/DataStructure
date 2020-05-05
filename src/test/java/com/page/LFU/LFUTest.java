@@ -35,6 +35,6 @@ public class LFUTest {
 
         process.execute(pages);
 
-        Assert.assertThat(process.getPageDefault(), is(6));
+        Assert.assertThat(process.getPageDefault(), is(5));
     }
 }
