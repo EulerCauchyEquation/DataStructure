@@ -43,3 +43,12 @@
 * [FIFO Algorithm](./src/main/java/com/page/FIFO)
 * [LRU Algorithm](./src/main/java/com/page/LRU)
 * [LFU Algorithm](./src/main/java/com/page/LFU)
+
+<br>
+
+## Disk Scheduling
+
+* [FCFS Disk Scheduling](./src/main/java/com/disk/FCFS)
+* [SSTF Disk Scheduling](./src/main/java/com/disk/SSTF)
+* [LOOK Disk Scheduling](./src/main/java/com/disk/LOOK)
+* [C-LOOK Disk Scheduling](./src/main/java/com/disk/CLOOK)
