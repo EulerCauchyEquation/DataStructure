@@ -43,3 +43,9 @@
 * [FIFO Algorithm](./src/main/java/com/page/FIFO)
 * [LRU Algorithm](./src/main/java/com/page/LRU)
 * [LFU Algorithm](./src/main/java/com/page/LFU)
+
+<br>
+
+## Disk Scheduling
+
+* [FCFS disk Scheduling](./src/main/java/com/disk/FCFS)
