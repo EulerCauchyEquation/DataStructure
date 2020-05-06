@@ -48,6 +48,7 @@
 
 ## Disk Scheduling
 
-* [FCFS disk Scheduling](./src/main/java/com/disk/FCFS)
-* [SSTF disk Scheduling](./src/main/java/com/disk/SSTF)
-* [LOOK disk Scheduling](./src/main/java/com/disk/LOOK)
+* [FCFS Disk Scheduling](./src/main/java/com/disk/FCFS)
+* [SSTF Disk Scheduling](./src/main/java/com/disk/SSTF)
+* [LOOK Disk Scheduling](./src/main/java/com/disk/LOOK)
+* [C-LOOK Disk Scheduling](./src/main/java/com/disk/CLOOK)
