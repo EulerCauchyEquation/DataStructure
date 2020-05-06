@@ -33,7 +33,7 @@ public class CLOOKTest {
         scheduling = new Scheduling(init_head, queue);
         scheduling.execute();
 
-        Assert.assertThat(scheduling.getHeadDistance(), is(230));
+        Assert.assertThat(scheduling.getHeadDistance(), is(380));
     }
 }
 
