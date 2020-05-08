@@ -23,14 +23,15 @@ Virutaul Memory : 보조 기억 장치인 H.D에 일부를 가져와 RAM의 부�
 
 그래서 , Virtual Address라는 개념이 발생한다.
 
-Virtual Address : RAM의 실제 주소를 가상 메모리에 저장해서 사용한다.  일명, 사상(Mapping)을 통해                                 저장한다.  사상 임무는 MMU가 담당
+Virtual Address : RAM의 실제 주소를 가상 메모리에 저장해서 사용한다.  
+            일명, 사상(Mapping)을 통해 저장한다.  사상 임무는 MMU가 담당
 
 <img src="/doc/page/picture2.png">
 
 <br>
 
-이때, 사상을 Word나 Byte 단위로 관리를 하면 오버헤드 비용이 너무 크므로, Block 단위로 사상을 한다.
-page : 같은 크기의 block 단위
+이때, 사상을 Word나 Byte 단위로 관리를 하면 오버헤드 비용이 너무 크므로, Block 단위로 사상을 한다.<br>
+page : 같은 크기의 block 단위<br>
 segment : 서로 다른 크기의 block 단위
 
 <img src="/doc/page/picture3.png">
