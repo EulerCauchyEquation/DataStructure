@@ -33,12 +33,16 @@
 
 ## Scheduling
 
+##### [작업 스케줄링이 나오기까지..](./src/main/java/com/scheduling)
+
 * [non-preepmtive : FCFS Scheduling](./src/main/java/com/scheduling/FCFS)
 * [non-preepmtive : SJF Scheduling](./src/main/java/com/scheduling/SJF)
 
 <br>
 
 ## Page Replacement 
+
+##### [Virtual Memory 개념](./src/main/java/com/page)
 
 * [FIFO Algorithm](./src/main/java/com/page/FIFO)
 * [LRU Algorithm](./src/main/java/com/page/LRU)
