@@ -21,6 +21,7 @@
 <br>
 
 이슈.
+
 ---
 준비완료 (Ready) 상태에 있는 프로세스들 중 어떤 것을 할당할 것인가에 문제<br>
 처리율 최대화와 반환 시간의 최소화
@@ -48,9 +49,9 @@ Process : CPU가 수행하는 작업 단위
 
 <br>
 
-dispatch : ready -> run
-timer runout : run -> ready
-block : run -> waiting
+dispatch : ready -> run <br>
+timer runout : run -> ready <br>
+block : run -> waiting <br>
 wake-up : waiting -> ready
 
 
