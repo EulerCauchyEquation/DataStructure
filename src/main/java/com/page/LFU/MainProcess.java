@@ -1,9 +1,7 @@
 package com.page.LFU;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Queue;
 
 /**
  * LFU : Least Frequently Used
@@ -12,8 +10,7 @@ import java.util.Queue;
  * @since 20.05.04
  */
 public class MainProcess {
-    private final Map<Integer, Integer> pageTable = new HashMap<>();
-    private final Queue<Integer> history = new LinkedList<>();
+    private final Map<Integer, Integer> pageTable;
     private final int frameSize;
     private int miss;
 
@@ -22,6 +19,7 @@ public class MainProcess {
     }
 
     public MainProcess(int frameSize) {
+        this.pageTable = new LinkedHashMap<>();
         this.frameSize = frameSize;
     }
 
@@ -32,32 +30,27 @@ public class MainProcess {
     }
 
     private void usePage(int page) {
-        if (pageTable.containsKey(page)) {
-            history.remove(page);
-        } else {
+        if (!pageTable.containsKey(page)) {
             if (pageTable.size() == frameSize) {
                 int deletePage = getLeastReferencedPage();
-
                 pageTable.remove(deletePage);
-                history.remove(deletePage);
             }
-            pageTable.put(page, 1);
             miss++;
         }
-        pageTable.compute(
-                page,
-                (key, value) -> value = (value == null) ? 1 : value + 1);
-        history.offer(page);
+        // add the key-value pair to the map, if key is not present
+        // replace the value with the newly computed value, if key is present
+        pageTable.merge(page, 1,
+                (key, value) -> pageTable.get(page) + 1);
     }
 
     private int getLeastReferencedPage() {
-        int minPage = Integer.MAX_VALUE;
+        int minPage = 0;
         int result = Integer.MAX_VALUE;
 
-        for (int page : history) {
-            if (result - pageTable.get(page) > 0) {
-                result = pageTable.get(page);
-                minPage = page;
+        for (Map.Entry<Integer, Integer> entry : pageTable.entrySet()) {
+            if (result - entry.getValue() > 0) {
+                result = entry.getValue();
+                minPage = entry.getKey();
             }
         }
         return minPage;
