@@ -26,7 +26,7 @@ public class LFUTest {
 
         process.execute(pages);
 
-        Assert.assertThat(process.getPageDefault(), is(11));
+        Assert.assertThat(process.getPageDefault(), is(13));
     }
 
     @Test
