@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.CoreMatchers.is;
 
 /**
@@ -26,7 +28,7 @@ public class AVLTreeTest {
         Assert.assertThat(tree.size(), is(0));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testInsertNull() {
         tree.insert(null);
     }
@@ -53,7 +55,7 @@ public class AVLTreeTest {
         Assert.assertThat(tree.size(), is(8));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NoSuchElementException.class)
     public void testRemoveIllegalArgumentElement() {
         tree.insert(5);
         tree.remove(0);

@@ -3,6 +3,7 @@ package com.tree.avltree;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * AVL Tree : balance Binary Search Tree
@@ -33,39 +34,35 @@ public class AVLTree<E> {
     }
 
     public void insert(E data) {
+        boolean hasUpdated = insertNode(data);
+        if (hasUpdated) {
+            reBalance(root);
+        }
+    }
+
+    private boolean insertNode(E data) {
         if (data == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException();
         }
         if (root == null) {
             root = new TreeNode<>(data);
             size++;
-            return;
+            return true;
         }
-
-        boolean result = explicitInsert(data);
-
-        if (result) {
-            root = reBalance(root);
-        }
-    }
-
-    private boolean explicitInsert(E data) {
         TreeNode<E> current = root;
-
-        while (current != null) {
+        while (true) {
             int comp = compare(data, current.data);
-
             if (comp < 0) {
-                // to left
+                // move left
                 if (current.left == null) {
-                    current.left = new TreeNode<>(data);
+                    current.left = new TreeNode<>(data, current);
                     break;
                 }
                 current = current.left;
             } else if (comp > 0) {
-                // to right
+                // move right
                 if (current.right == null) {
-                    current.right = new TreeNode<>(data);
+                    current.right = new TreeNode<>(data, current);
                     break;
                 }
                 current = current.right;
@@ -78,73 +75,85 @@ public class AVLTree<E> {
         return true;
     }
 
-    private TreeNode<E> reBalance(TreeNode<E> node) {
+    private void reBalance(TreeNode<E> node) {
         if (node == null) {
-            return null;
+            return;
         }
-
-        node.left = reBalance(node.left);
-        node.right = reBalance(node.right);
+        reBalance(node.left);
+        reBalance(node.right);
         node.updateHeight();
-        node.updateBalance();
 
-        int balance_factor = node.balance;
-
+        int balance_factor = node.getBalance();
         if (Math.abs(balance_factor) <= 1) {
             // balance factor 1 이하 = 균형 트리
-            return node;
+            return;
         }
-        node = rotate(node);
-        return node;
+        rotate(node);
     }
 
-    private TreeNode<E> rotate(TreeNode<E> node) {
-        int balance_factor = node.balance;
-
+    private void rotate(TreeNode<E> node) {
+        int balance_factor = node.getBalance();
         if (balance_factor > 0) {
-            // 양수면 일단 Right Rotate or LR Rotate
-            int left_balance_factor = node.left.balance;
-
+            // right rotate
+            int left_balance_factor = node.left.getBalance();
             if (left_balance_factor <= 0) {
-                node.left = rotateL(node.left);
+                // LR rotate
+                rotateLeft(node.left);
             }
-            return rotateR(node);
+            rotateRight(node);
         } else {
-            int right_balance_factor = node.right.balance;
-
+            // left rotate
+            int right_balance_factor = node.right.getBalance();
             if (right_balance_factor >= 0) {
-                node.right = rotateR(node.right);
+                // RL rotate
+                rotateRight(node.right);
             }
-            return rotateL(node);
+            rotateLeft(node);
         }
     }
 
-    private TreeNode<E> rotateL(TreeNode<E> parent) {
-        TreeNode<E> child = parent.right;
+    private void rotateLeft(TreeNode<E> p) {
+        TreeNode<E> child = p.right;
+        // update parent
+        p.right = child.left;
+        if (p.right != null) {
+            p.right.parent = p;
+        }
+        // update child
+        child.parent = p.parent;
+        if (p.parent == null) {
+            root = child;
+        } else if (p.parent.left == p) {
+            p.parent.left = child;
+        } else {
+            p.parent.right = child;
+        }
+        child.left = p;
+        p.parent = child;
 
-        parent.right = child.left;
-        child.left = parent;
-
-        parent.updateHeight();
-        parent.updateBalance();
+        p.updateHeight();
         child.updateHeight();
-        child.updateBalance();
-
-        return child;
     }
 
-    private TreeNode<E> rotateR(TreeNode<E> parent) {
-        TreeNode<E> child = parent.left;
+    private void rotateRight(TreeNode<E> p) {
+        TreeNode<E> child = p.left;
+        p.left = child.right;
+        if (p.left != null) {
+            p.left.parent = p;
+        }
+        child.parent = p.parent;
+        if (p.parent == null) {
+            root = child;
+        } else if (p.parent.left == p) {
+            p.parent.left = child;
+        } else {
+            p.parent.right = child;
+        }
+        child.right = p;
+        p.parent = child;
 
-        parent.left = child.right;
-        child.right = parent;
-
-        parent.updateHeight();
-        parent.updateBalance();
+        p.updateHeight();
         child.updateHeight();
-        child.updateBalance();
-
-        return child;
     }
 
     @SuppressWarnings("unchecked")
@@ -159,71 +168,62 @@ public class AVLTree<E> {
             return;
         }
 
-        explicitRemove(data);
-        root = reBalance(root);
+        removeNode(data);
+        reBalance(root);
     }
 
-    private void explicitRemove(E data) {
-        TreeNode<E> current = root;
-        TreeNode<E> parent = null;
-        boolean isLeftChild = false;
+    private void removeNode(E data) {
+        if (data == null) {
+            throw new IllegalArgumentException();
+        }
 
+        TreeNode<E> current = root;
         while (true) {
             if (current == null) {
-                throw new IllegalArgumentException();
+                throw new NoSuchElementException();
             }
-
             int comp = compare(data, current.data);
-
             if (comp < 0) {
-                // to left
-                parent = current;
-                isLeftChild = true;
+                // move left
                 current = current.left;
             } else if (comp > 0) {
-                // to right
-                parent = current;
-                isLeftChild = false;
+                // move right
                 current = current.right;
             } else {
                 break;
             }
         }
 
-        TreeNode<E> successor;
-        if (current.left == null) {
-            successor = current.right;
-        } else if (current.right == null) {
-            successor = current.left;
-        } else {
-            successor = getSuccessor(current);
+        if (current.left != null && current.right != null) {
+            TreeNode<E> successor = getSuccessor(current);
+            current.data = successor.data;
+            current = successor;
         }
-
+        TreeNode<E> parent = current.parent;
+        TreeNode<E> replacement = (current.left != null) ? current.left
+                : current.right;
+        if (replacement != null) {
+            replacement.parent = current.parent;
+        }
+        // link replacement to parent
         if (parent == null) {
-            root = successor;
-        } else if (isLeftChild) {
-            parent.left = successor;
+            root = replacement;
+        } else if (parent.left == current) {
+            parent.left = replacement;
         } else {
-            parent.right = successor;
+            parent.right = replacement;
         }
+        // destroy current node
+        current.parent = current.right = current.left = null;
+
         size--;
     }
 
-    private TreeNode<E> getSuccessor(TreeNode<E> delete) {
-        TreeNode<E> successor = delete.right;
-        TreeNode<E> successorParent = successor;
-
+    private TreeNode<E> getSuccessor(TreeNode<E> deleteNode) {
+        TreeNode<E> successor = deleteNode.right;
         while (successor.left != null) {
-            successorParent = successor;
             successor = successor.left;
         }
-
-        if (successor != delete.right) {
-            successorParent.left = successor.right;
-            successor.right = successorParent;
-        }
-        successor.left = delete.left;
-
         return successor;
     }
 
@@ -272,24 +272,23 @@ public class AVLTree<E> {
         }
     }
 
-    static class TreeNode<E> {
-        private E data;
-        private TreeNode<E> left;
-        private TreeNode<E> right;
-        private int height;
-        private int balance;
+    private static class TreeNode<E> {
+        E data;
+        TreeNode<E> parent;
+        TreeNode<E> left;
+        TreeNode<E> right;
+        int height;
 
         TreeNode(E data) {
-            this(data, null, null);
+            this(data, null);
         }
 
-        TreeNode(E data, TreeNode<E> left, TreeNode<E> right) {
+        TreeNode(E data, TreeNode<E> parent) {
             this.data = data;
-            this.left = left;
-            this.right = right;
+            this.parent = parent;
         }
 
-        public void updateHeight() {
+        void updateHeight() {
             int leftHeight = heightOf(left);
             int rightHeight = heightOf(right);
             height = Math.max(leftHeight, rightHeight) + 1;
@@ -297,15 +296,15 @@ public class AVLTree<E> {
 
         private int heightOf(TreeNode<E> right) {
             return (right == null)
-                    ? -1
+                    ? 0
                     : right.height;
         }
 
 
-        public void updateBalance() {
+        int getBalance() {
             int leftHeight = heightOf(left);
             int rightHeight = heightOf(right);
-            balance = leftHeight - rightHeight;
+            return leftHeight - rightHeight;
         }
     }
 
