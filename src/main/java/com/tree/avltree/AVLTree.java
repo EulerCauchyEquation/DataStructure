@@ -194,27 +194,28 @@ public class AVLTree<E> {
             }
         }
 
-        final TreeNode<E> successor;
-        final TreeNode<E> parent = current.parent;
-        // find successor
-        if (current.left == null) {
-            successor = current.right;
-        } else if (current.right == null) {
-            successor = current.left;
-        } else {
-            successor = getSuccessor(current);
+        if (current.left != null && current.right != null) {
+            TreeNode<E> successor = getSuccessor(current);
+            current.data = successor.data;
+            current = successor;
         }
-        if (successor != null) {
-            successor.parent = parent;
+        TreeNode<E> parent = current.parent;
+        TreeNode<E> replacement = (current.left != null) ? current.left
+                : current.right;
+        if (replacement != null) {
+            replacement.parent = current.parent;
         }
-        // connect parent link
+        // link replacement to parent
         if (parent == null) {
-            root = successor;
+            root = replacement;
         } else if (parent.left == current) {
-            parent.left = successor;
+            parent.left = replacement;
         } else {
-            parent.right = successor;
+            parent.right = replacement;
         }
+        // destroy current node
+        current.parent = current.right = current.left = null;
+
         size--;
     }
 
@@ -223,17 +224,6 @@ public class AVLTree<E> {
         while (successor.left != null) {
             successor = successor.left;
         }
-        TreeNode<E> successorParent = successor.parent;
-        if (successorParent != deleteNode) {
-            successorParent.left = successor.right;
-            if (successor.right != null) {
-                successor.right.parent = successorParent;
-            }
-            successor.right = deleteNode.right;
-            deleteNode.right.parent = successor;
-        }
-        successor.left = deleteNode.left;
-        deleteNode.left.parent = successor;
         return successor;
     }
 
@@ -283,7 +273,7 @@ public class AVLTree<E> {
     }
 
     private static class TreeNode<E> {
-        final E data;
+        E data;
         TreeNode<E> parent;
         TreeNode<E> left;
         TreeNode<E> right;
